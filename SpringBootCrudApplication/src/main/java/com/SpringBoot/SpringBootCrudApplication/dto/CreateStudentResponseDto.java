@@ -1,33 +1,21 @@
-package com.SpringBoot.SpringBootCrudApplication.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.hibernate.boot.BootLogging;
+package com.SpringBoot.SpringBootCrudApplication.dto;
 
 import java.time.LocalDateTime;
 
 /**********************************************
  Developer Name: Vikas
- Created on: 30-06-2026 00:33
- Project Name: SpringBootCrudApplication Entity class Student
+ Created on: 07-07-2026 20:10
+ Project Name: SpringBootCrudApplication ${
  /**********************************************/
-@Entity
-public class Student {
+public class CreateStudentResponseDto {
 
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private int age;
     private String email;
     private int rollNo;
     private String subject;
-    private Boolean deleted;
+    private String message;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -79,12 +67,12 @@ public class Student {
         this.subject = subject;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public LocalDateTime getCreatedAt() {

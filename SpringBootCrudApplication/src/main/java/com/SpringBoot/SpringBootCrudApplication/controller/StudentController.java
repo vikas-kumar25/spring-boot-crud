@@ -1,5 +1,7 @@
 package com.SpringBoot.SpringBootCrudApplication.controller;
 
+import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentRequestDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentResponseDto;
 import com.SpringBoot.SpringBootCrudApplication.entity.Student;
 import com.SpringBoot.SpringBootCrudApplication.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +30,9 @@ public class StudentController {
 
     //create student-----------
     @PostMapping("/create")
-    public ResponseEntity<Student> createStudent(@RequestBody Student studentReq) {
+    public ResponseEntity<CreateStudentResponseDto> createStudent(@RequestBody CreateStudentRequestDto createStudentRequestDto) {
 
-        Student createdStudent = studentService.createStudent(studentReq);
+        CreateStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

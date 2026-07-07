@@ -1,10 +1,13 @@
 package com.SpringBoot.SpringBootCrudApplication.service;
 
 
+import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentRequestDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentResponseDto;
 import com.SpringBoot.SpringBootCrudApplication.entity.Student;
 import com.SpringBoot.SpringBootCrudApplication.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +27,55 @@ public class StudentService {
     }
 
     //Create---
-    public Student createStudent(Student studentReq) {
-        studentReq.setDeleted(false);   //setting false for setDeleted
-        Student studentResp = studentRepository.save(studentReq);
-        return studentResp;
+    public CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto) {
+
+       Student student = mapToEntity(createStudentRequestDto);    //createStudentRequestDto --to-- student entity
+
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
+
+      Student studentResp = studentRepository.save(student);
+
+      return mapToDto(studentResp);     //student entity --to-- studentResponseDto
+//        studentReqD.setDeleted(false);   //setting false for setDeleted
+//        Student studentResp = studentRepository.save(studentReq);
+//        return studentResp;
+    }
+
+    //Mapping function (CreateStudentRequestDto --to--> Student entity)
+    private Student mapToEntity(CreateStudentRequestDto createStudentRequestDto) {
+        Student student = new Student();
+
+        //later we will use builder pattern instead of using setter here
+        student.setName(createStudentRequestDto.getName());
+        student.setRollNo(createStudentRequestDto.getRollNo());
+        student.setAge(createStudentRequestDto.getAge());
+        student.setEmail(createStudentRequestDto.getEmail());
+        student.setSubject(createStudentRequestDto.getSubject());
+
+        student.setDeleted(false);
+
+        return student;
+    }
+
+    //Mapping function (Student --to--> CreateStudentResponseDto)
+    private CreateStudentResponseDto mapToDto(Student studentResp) {
+        CreateStudentResponseDto createStudentResponseDto = new CreateStudentResponseDto();
+
+        createStudentResponseDto.setId(studentResp.getId());
+        createStudentResponseDto.setName(studentResp.getName());
+        createStudentResponseDto.setRollNo(studentResp.getRollNo());
+        createStudentResponseDto.setAge(studentResp.getAge());
+        createStudentResponseDto.setEmail(studentResp.getEmail());
+        createStudentResponseDto.setSubject(studentResp.getSubject());
+
+        createStudentResponseDto.setCreatedAt(studentResp.getCreatedAt());
+        createStudentResponseDto.setUpdatedAt(studentResp.getUpdatedAt());
+
+        createStudentResponseDto.setMessage("Student Saved Successfully");
+
+
+        return createStudentResponseDto;
     }
 
     //Get----
