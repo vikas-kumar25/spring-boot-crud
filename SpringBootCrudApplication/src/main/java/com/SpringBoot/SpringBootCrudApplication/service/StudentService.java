@@ -28,18 +28,18 @@ public class StudentService {
     //Create---
     public CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto) {
 
-        Student student = mapToEntity(createStudentRequestDto);    //createStudentRequestDto --to-- student entity
+        Student student = mapToCreateEntity(createStudentRequestDto);    //createStudentRequestDto --to-- student entity
 
         student.setCreatedAt(LocalDateTime.now());
         student.setUpdatedAt(LocalDateTime.now());
 
         Student studentResp = studentRepository.save(student);
 
-        return mapToDto(studentResp);     //student entity --to-- studentResponseDto
+        return mapToCreateDto(studentResp);     //student entity --to-- studentResponseDto
     }
 
     //Mapping function (CreateStudentRequestDto --to--> Student entity)
-    private Student mapToEntity(CreateStudentRequestDto createStudentRequestDto) {
+    private Student mapToCreateEntity(CreateStudentRequestDto createStudentRequestDto) {
         Student student = new Student();
 
         //later we will use builder pattern instead of using setter here
@@ -55,7 +55,7 @@ public class StudentService {
     }
 
     //Mapping function (Student --to--> CreateStudentResponseDto)
-    private CreateStudentResponseDto mapToDto(Student studentResp) {
+    private CreateStudentResponseDto mapToCreateDto(Student studentResp) {
         CreateStudentResponseDto createStudentResponseDto = new CreateStudentResponseDto();
 
         createStudentResponseDto.setId(studentResp.getId());
@@ -189,7 +189,11 @@ public class StudentService {
     }
 
     //read/get all active students---
-    public List<Student> getAllActiveStudents() {
-        return studentRepository.findAllByDeletedIsFalse();
+    public List<GetStudentResponseDto> getAllActiveStudents() {
+        List<Student> studentList = studentRepository.findAllByDeletedIsFalse();
+
+        return studentList.stream()
+                .map(this::mapToResponseDto)
+                .toList();
     }
 }

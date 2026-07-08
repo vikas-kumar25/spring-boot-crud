@@ -98,8 +98,8 @@ public class StudentController {
 
     //Get All Active Students---
     @GetMapping("/active")
-    public List<Student> getAllStudents() {
-        List<Student> list = studentService.getAllActiveStudents();
+    public List<GetStudentResponseDto> getAllStudents() {
+        List<GetStudentResponseDto> list = studentService.getAllActiveStudents();
         return list;
     }
 }
