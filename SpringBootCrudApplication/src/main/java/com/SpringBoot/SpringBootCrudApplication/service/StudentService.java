@@ -3,6 +3,8 @@ package com.SpringBoot.SpringBootCrudApplication.service;
 
 import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentRequestDto;
 import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentResponseDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentRequestDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentResponseDto;
 import com.SpringBoot.SpringBootCrudApplication.entity.Student;
 import com.SpringBoot.SpringBootCrudApplication.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -29,14 +31,14 @@ public class StudentService {
     //Create---
     public CreateStudentResponseDto createStudent(CreateStudentRequestDto createStudentRequestDto) {
 
-       Student student = mapToEntity(createStudentRequestDto);    //createStudentRequestDto --to-- student entity
+        Student student = mapToEntity(createStudentRequestDto);    //createStudentRequestDto --to-- student entity
 
         student.setCreatedAt(LocalDateTime.now());
         student.setUpdatedAt(LocalDateTime.now());
 
-      Student studentResp = studentRepository.save(student);
+        Student studentResp = studentRepository.save(student);
 
-      return mapToDto(studentResp);     //student entity --to-- studentResponseDto
+        return mapToDto(studentResp);     //student entity --to-- studentResponseDto
 //        studentReqD.setDeleted(false);   //setting false for setDeleted
 //        Student studentResp = studentRepository.save(studentReq);
 //        return studentResp;
@@ -89,21 +91,37 @@ public class StudentService {
     }
 
     //update with put---
-    public String updateStudent(Student studentReq, Long id) {
+    public UpdateStudentResponseDto updateStudent(UpdateStudentRequestDto updateStudentReq, Long id) {
         Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
         if (existingStudent.isPresent()) {
+
             Student studentToSave = existingStudent.get();
 
-            studentToSave.setName(studentReq.getName());
-            studentToSave.setSubject(studentReq.getSubject());
-            studentToSave.setAge(studentReq.getAge());
-            studentToSave.setRollNo(studentReq.getRollNo());
+            studentToSave.setName(updateStudentReq.getName());
+            studentToSave.setSubject(updateStudentReq.getSubject());
+            studentToSave.setAge(updateStudentReq.getAge());
+            studentToSave.setRollNo(updateStudentReq.getRollNo());
+            studentToSave.setUpdatedAt(LocalDateTime.now());
+            updateStudentReq.setDeleted(false);    //setting false so that any user can not make it true
 
-            studentReq.setDeleted(false);    //setting false so that any user can not make it true
+            Student savedStudent = studentRepository.save(studentToSave);
+            return mapToUpdateDto(savedStudent);
+        } else return null;
+    }
 
-            studentRepository.save(studentToSave);
-            return "Updated Successfully!";
-        } else return "Student not found";
+    private UpdateStudentResponseDto mapToUpdateDto(Student savedStudent) {
+
+        UpdateStudentResponseDto responseDto = new UpdateStudentResponseDto();
+
+        responseDto.setId(savedStudent.getId());
+        responseDto.setName(savedStudent.getName());
+        responseDto.setSubject(savedStudent.getSubject());
+        responseDto.setAge(savedStudent.getAge());
+        responseDto.setRollNo(savedStudent.getRollNo());
+        responseDto.setUpdatedAt(LocalDateTime.now());
+        responseDto.setMessage("Student Updated Successfully!");
+
+        return responseDto;
     }
 
 

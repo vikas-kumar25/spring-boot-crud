@@ -2,6 +2,8 @@ package com.SpringBoot.SpringBootCrudApplication.controller;
 
 import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentRequestDto;
 import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentResponseDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentRequestDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentResponseDto;
 import com.SpringBoot.SpringBootCrudApplication.entity.Student;
 import com.SpringBoot.SpringBootCrudApplication.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,11 +59,13 @@ public class StudentController {
 
     //update student--------
     @PutMapping("/{id}")
-    public ResponseEntity<String> updatingStudent(@RequestBody Student student, @PathVariable("id") Long id) {
-        String str = studentService.updateStudent(student, id);
+    public ResponseEntity<UpdateStudentResponseDto> updatingStudent(
+            @RequestBody UpdateStudentRequestDto updateStudentRequestDto,
+            @PathVariable("id") Long id) {
+        UpdateStudentResponseDto updateStudent = studentService.updateStudent(updateStudentRequestDto, id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(str);
+                .body(updateStudent);
     }
 
     //delete student--------
@@ -105,4 +109,4 @@ public class StudentController {
 
 //Component is too generic so for controller layer we use @RestController
 //@Component --> @Controller --> @RestController
-//@RequestBody uses Jackson Library which converts Json ---convert---> java class
+//@RequestBody uses Jackson Library which converts: Json ---convert---> java class
