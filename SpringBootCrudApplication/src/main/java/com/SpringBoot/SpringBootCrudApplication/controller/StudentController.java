@@ -1,9 +1,6 @@
 package com.SpringBoot.SpringBootCrudApplication.controller;
 
-import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentRequestDto;
-import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentResponseDto;
-import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentRequestDto;
-import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentResponseDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.*;
 import com.SpringBoot.SpringBootCrudApplication.entity.Student;
 import com.SpringBoot.SpringBootCrudApplication.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +41,7 @@ public class StudentController {
     //get/read student by their Ids-------
     @GetMapping("/{id}")
     public ResponseEntity<?> gettingStudent(@PathVariable Long id) {
-        Student getStudent = studentService.gettingStudent(id);
+        GetStudentResponseDto getStudent = studentService.gettingStudent(id);
 
         if (getStudent != null) {
             return ResponseEntity

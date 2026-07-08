@@ -1,10 +1,7 @@
 package com.SpringBoot.SpringBootCrudApplication.service;
 
 
-import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentRequestDto;
-import com.SpringBoot.SpringBootCrudApplication.dto.CreateStudentResponseDto;
-import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentRequestDto;
-import com.SpringBoot.SpringBootCrudApplication.dto.UpdateStudentResponseDto;
+import com.SpringBoot.SpringBootCrudApplication.dto.*;
 import com.SpringBoot.SpringBootCrudApplication.entity.Student;
 import com.SpringBoot.SpringBootCrudApplication.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -39,9 +36,6 @@ public class StudentService {
         Student studentResp = studentRepository.save(student);
 
         return mapToDto(studentResp);     //student entity --to-- studentResponseDto
-//        studentReqD.setDeleted(false);   //setting false for setDeleted
-//        Student studentResp = studentRepository.save(studentReq);
-//        return studentResp;
     }
 
     //Mapping function (CreateStudentRequestDto --to--> Student entity)
@@ -81,14 +75,30 @@ public class StudentService {
     }
 
     //Get----
-    public Student gettingStudent(Long studentId) {
+    public GetStudentResponseDto gettingStudent(Long studentId) {
         Optional<Student> getStudents = studentRepository.findByIdAndDeletedIsFalse(studentId);
         if (getStudents.isPresent()) {
-            return getStudents.get();
+            Student studentResponse = getStudents.get();
+            return mapToResponseDto(studentResponse);
         } else {
             return null;
         }
     }
+
+    private GetStudentResponseDto mapToResponseDto(Student studentResponse) {
+        GetStudentResponseDto getResponse = new GetStudentResponseDto();
+
+        getResponse.setId(studentResponse.getId());
+        getResponse.setName(studentResponse.getName());
+        getResponse.setRollNo(studentResponse.getRollNo());
+        getResponse.setSubject(studentResponse.getSubject());
+        getResponse.setAge(studentResponse.getAge());
+
+        getResponse.setMessage("This is the information of Student of id " + studentResponse.getId());
+
+        return getResponse;
+    }
+
 
     //update with put---
     public UpdateStudentResponseDto updateStudent(UpdateStudentRequestDto updateStudentReq, Long id) {
