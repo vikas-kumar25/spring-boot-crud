@@ -3,6 +3,7 @@ package com.SpringBoot.SpringBootCrudApplication.controller;
 import com.SpringBoot.SpringBootCrudApplication.dto.*;
 import com.SpringBoot.SpringBootCrudApplication.entity.Student;
 import com.SpringBoot.SpringBootCrudApplication.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,8 @@ public class StudentController {
 
     //create student-----------
     @PostMapping("/create")
-    public ResponseEntity<CreateStudentResponseDto> createStudent(@RequestBody CreateStudentRequestDto createStudentRequestDto) {
+    public ResponseEntity<CreateStudentResponseDto> createStudent(
+            @Valid @RequestBody CreateStudentRequestDto createStudentRequestDto) {
 
         CreateStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDto);
 

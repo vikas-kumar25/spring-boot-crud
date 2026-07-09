@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.hibernate.boot.BootLogging;
-
 import java.time.LocalDateTime;
 
 /**********************************************
@@ -16,14 +14,12 @@ import java.time.LocalDateTime;
 @Entity
 public class Student {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private int age;
+    private Integer age;
     private String email;
     private int rollNo;
     private String subject;
@@ -63,11 +59,11 @@ public class Student {
         this.email = email;
     }
 
-    public int getRollNo() {
+    public Integer getRollNo() {
         return rollNo;
     }
 
-    public void setRollNo(int rollNo) {
+    public void setRollNo(Integer rollNo) {
         this.rollNo = rollNo;
     }
 

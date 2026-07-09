@@ -1,5 +1,7 @@
 package com.SpringBoot.SpringBootCrudApplication.dto;
 
+import jakarta.validation.constraints.*;
+
 /**********************************************
  Developer Name: Vikas
  Created on: 07-07-2026 19:59
@@ -7,10 +9,22 @@ package com.SpringBoot.SpringBootCrudApplication.dto;
  /**********************************************/
 public class CreateStudentRequestDto {
 
+    @NotBlank(message = "Name can not be null/Empty or blank")
+    @Size(min = 2, max = 50, message = "Name must be within 2 to 50 character long")
     private String name;
+
+    @NotNull(message = "Age is required")
+    @Min(value = 16, message = "Student must be at least 16 years old")
     private int age;
+
+    @NotBlank(message = "Email can not be blank")
+    @Email(message = "Provide a valid email")
     private String email;
+
+    @NotNull(message = "Roll Number is required")
     private int rollNo;
+
+    @NotBlank(message = "Subject is required")
     private String subject;
 
     public String getName() {
